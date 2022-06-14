@@ -2,8 +2,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
-const PORT = process.env.PORT || 3001;
-
 // Connect to database
 const db = mysql.createConnection(
   {
@@ -37,56 +35,38 @@ function viewAllEmps(cb) {
   });
 }
 
-// Add a department
-async function addDep(cb) {
-  userInput()
-  const dep = await db.query(`INSERT INTO departments (dep_name) VALUES ("Ethics");`)
-    return db.query(`SELECT * FROM departments;`, (err, result) => {
-      cb(result)
-    });
-}
+// // Add a department
+// function addDep(cb) {
+//   userInput()
+//   db.query(`INSERT INTO departments (dep_name) VALUES ${(userInput)};`)
+//     return db.query(`SELECT * FROM departments;`, (err, result) => {
+//       cb(result)
+//     });
+// }
 
-// Add a role
-function addRoles(cb) {
-  return db.query(`SELECT * FROM staff_roles;`, (err, result) => {
-    cb(result)
-  });
-}
+// // Add a role
+// function addRoles(cb) {
+//   return db.query(`SELECT * FROM staff_roles;`, (err, result) => {
+//     cb(result)
+//   });
+// }
 
-// Add an employee 
-function addEmps(cb) {
-  return db.query(`SELECT * FROM employees;`, (err, result) => {
-    cb(result)
-  });
-}
+// // Add an employee 
+// function addEmps(cb) {
+//   return db.query(`SELECT * FROM employees;`, (err, result) => {
+//     cb(result)
+//   });
+// }
 
-// Update an employee role
-function updateEmps(cb) {
-  return db.query(`SELECT * FROM employees;`, (err, result) => {
-    cb(result)
-  });
-}
-
-function userInput(){
-  inquirer
-    .prompt([
-      {
-        type: 'input',
-        message: 'What would you like to add?',
-        name: 'userInput',
-      }
-    ])
-    .then((input) => {
-      console.log(input)
-    });
-}
+// // Update an employee role
+// function updateEmps(cb) {
+//   return db.query(`SELECT * FROM employees;`, (err, result) => {
+//     cb(result)
+//   });
+// }
 
 module.exports = {
   viewAllDep,
   viewAllRoles,
-  viewAllEmps,
-  addDep,
-  addRoles,
-  addEmps,
-  updateEmps
+  viewAllEmps
 }

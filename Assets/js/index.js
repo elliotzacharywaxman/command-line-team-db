@@ -76,38 +76,6 @@ function viewEmps(){
   })
 }
 
-// function addDepartment(){
-//   console.log("viewDepartments()");
-//   helper.addDep((result)=>{
-//     console.table(result)
-//     viewPrompts();
-//   })
-// }
-
-// function addRoles(){
-//   console.log("viewRoles()");
-//   helper.addRoles((result)=>{
-//     console.table(result)
-//     viewPrompts();
-//   })
-// }
-
-// function addEmps(){
-//   console.log("viewEmps()");
-//   helper.addEmps((result)=>{
-//     console.table(result)
-//     viewPrompts();
-//   })
-// }
-
-// function updateEmps(){
-//   console.log("viewEmps()");
-//   helper.updateEmps((result)=>{
-//     console.table(result)
-//     viewPrompts();
-//   })
-// }
-
 const addDepartment =() => {
   inquirer
     .prompt([
@@ -129,29 +97,95 @@ const addDepartment =() => {
     })
 };
 
-function addRoles(){
-  console.log("viewRoles()");
-  helper.addRoles((result)=>{
-    console.table(result)
-    viewPrompts();
-  })
-}
+const addRoles = () => {
+  inquirer
+    .prompt([
+      {
+        type:"input",
+        message:"What is associated department ID of the new role?",
+        name: "department_id"
+      },
+      {
+        type:"input",
+        message:"What is the new role name?",
+        name: "role"
+      },
+      {
+        type:"input",
+        message:"What is the salary of the new role?",
+        name: "salary"
+      }
+    ])
+    .then((data) => {
+      const {department_id,role,salary} = data;
+      db.query(`INSERT INTO staff_roles (department_id,title,salary) VALUES (${department_id},"${role}",${salary})`),
+        (err) => {
+          if (err) throw err;
+          console.log(`congrats! you have added the role!\nTitle: ${role} \n Department ID: ${department} \nSalary: ${salary}`)
+        }
+      viewPrompts();
+    })
+};
 
-function addEmps(){
-  console.log("viewEmps()");
-  helper.addEmps((result)=>{
-    console.table(result)
-    viewPrompts();
-  })
-}
+const addEmps = () => {
+  inquirer
+    .prompt([
+      {
+        type:"input",
+        message:"What is the new employees first name?",
+        name: "emp_first_name"
+      },
+      {
+        type:"input",
+        message:"What is the new employees last name?",
+        name: "emp_last_name"
+      },
+      {
+        type:"input",
+        message:"What is the ID associated with the new employees role?",
+        name: "emp_role_id"
+      }
+    ])
+    .then((data) => {
+      const {emp_first_name,emp_last_name,emp_role_id} = data;
+      db.query(`INSERT INTO employees (emp_first_name, emp_last_name, emp_role_id) VALUES ("${emp_first_name}","${emp_last_name}",${emp_role_id});`),
+        (err) => {
+          if (err) throw err;
+        }
+      console.log(`congrats! you have added the employee!`)
+      viewPrompts();
+    })
+};
 
-function updateEmps(){
-  console.log("viewEmps()");
-  helper.updateEmps((result)=>{
-    console.table(result)
-    viewPrompts();
-  })
-}
+// const updateEmps = () => {
+//   inquirer
+//     .prompt([
+//       {
+//         type:"input",
+//         message:"What is the new employees first name?",
+//         name: "emp_first_name"
+//       },
+//       {
+//         type:"input",
+//         message:"What is the new employees last name?",
+//         name: "emp_last_name"
+//       },
+//       {
+//         type:"input",
+//         message:"What is the ID associated with the employees new role?",
+//         name: "emp_role_id"
+//       }
+//     ])
+//     .then((data) => {
+//       const {emp_first_name,emp_last_name,emp_role_id} = data;
+//       db.query(`UPDATE employees SET emp_role_id = ${emp_role_id} WHERE emp_first_name = ${emp_first_name};`),
+//         (err) => {
+//           if (err) throw err;
+//         }
+//       console.log(`congrats! you have update the employees role!`)
+//       viewPrompts();
+//     })
+// };
 
 viewPrompts();
 
